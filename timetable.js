@@ -86,7 +86,7 @@ class Timetable {
   /* 日付文字列のリストを取得する */
   getDateStrs() {
     let tod = new Date();
-    return [0, 1, 2, 3, 4, 5, 6].map((n) => {
+    return Array.from(Array(this.nDates).keys()).map((n) => {
       let tmp = new Date();
       tmp.setDate(tod.getDate() - n);    // n 日前
       let ymd = tmp.toLocaleString().split(" ")[0];
@@ -175,7 +175,6 @@ class Timetable {
       .attr("height", (d, i) => {
         let milliSecInDay = 86400000;    // ミリ秒
         let [start, finish] = d;
-        console.dir(d);
         return innerHeight * (finish - start) / milliSecInDay;
       })
       .attr("fill", this.setBarColor)
@@ -210,7 +209,7 @@ class Timetable {
       .attr("shape-rendering", "crispEdges");
   }
 
-  /* x 方向の目盛りの色を設定する */
+  /* y 方向の目盛りの色を設定する */
   setYAxisColor(d, i) {
     return "lightgray";
   }
