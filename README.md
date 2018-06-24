@@ -35,3 +35,4 @@ let nDates = 7;
 // draw table
 let tt = new Timetable(svgId, data, nDates);
 ```
+![timetable-sample-1](https://user-images.githubusercontent.com/24271672/41818594-1322e004-77ed-11e8-8c1f-155a72dd8825.JPG)
