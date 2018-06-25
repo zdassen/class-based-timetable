@@ -157,6 +157,9 @@ class Timetable {
     let barWidth = innerWidth / this.nDates;
     this.barWidth = barWidth;
 
+    // 縦の軸の path が 1px なので、0.5 加える
+    let offsetX = 0.5;
+
     return this.svg.selectAll("rect")
       .data(this.records)
       .enter()
@@ -165,7 +168,7 @@ class Timetable {
         let start = d[0];
         let startYmd = start.toLocaleString().split(" ")[0];
         let startMd = startYmd.substring(5);
-        return this.x(this.dateStrs.indexOf(startMd));
+        return this.x(this.dateStrs.indexOf(startMd)) + offsetX;
       })
       .attr("y", (d, i) => {
         let start = d[0];
@@ -330,18 +333,53 @@ class Timetable {
 }
 
 /* main */
-/*
 let data = [
   [
-    new Date("2018-06-19 23:55:55"),    // 睡眠開始時刻
-    new Date("2018-06-20 05:55:55"),    // 起床時刻
+    new Date("2018-06-19 23:55:55"),    // bedtime
+    new Date("2018-06-20 05:55:55"),    // wake-up time
+    "sleep"                             // log title
   ],
   [
     new Date("2018-06-22 00:10:00"),
     new Date("2018-06-22 06:00:15"),
+    "sleep"
   ],
+  [
+    new Date("2018-06-23 02:00:00"),
+    new Date("2018-06-23 03:30:00"),
+    "sleep"
+  ],
+
+  [
+    new Date("2018-06-20 12:15:16"),    // lunch time ( start )
+    new Date("2018-06-20 12:46:38"),    // linch time ( finish )
+    "lunch"
+  ],
+  [
+    new Date("2018-06-21 21:05:00"),    // football lesson
+    new Date("2018-06-21 22:35:00"),
+    "football lesson"
+  ],
+  [
+    new Date("2018-06-23 10:00:00"),    // meeting
+    new Date("2018-06-23 16:00:00"),
+    "meeting"
+  ]
 ];
+
+class MyTimetable extends Timetable {
+
+  /* override bar color setter */
+  setBarColor(d, i) {
+    let title = d[2];    // d[0] is "start", and d[1] is "finish"
+    if (title === "lunch") return "orange";
+    else if (title === "football lesson") return "springgreen";
+    else if (title === "meeting") return "crimson";
+    else return "steelblue";
+  }
+
+}
+
 let svgId = "graphArea";
-let tt = new Timetable(svgId, data, 7);
+let tt = new MyTimetable(svgId, data, 7);
 console.dir(tt);
-*/
